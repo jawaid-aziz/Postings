@@ -1,4 +1,5 @@
 import { useState } from "react";
+const URL = import.meta.env.VITE_APP_URL;
 
 export const SignUp = () => {
 
@@ -7,10 +8,37 @@ export const SignUp = () => {
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
 
-const handleSignUp = () => {
+const handleSignUp = async (e) => {
     
+    e.preventDefault();
 
+    try{
+        const response = await fetch(`${URL}/auth/sign-up`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+             }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+        const data = await response.json();
+        console.log(data);
+
+        setFirstName(""), setLastName(""), setEmail(""), setPassword("");
     }
+    catch (error) {
+        console.error("Signup Error:", error);
+    }
+}
 
     return (
         <div className="flex items-center justify-center bg-gray-100">

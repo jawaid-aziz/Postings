@@ -1,8 +1,11 @@
+// Dependencies
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
+// Database
 const connectToMongoDB = require('./config/db');
 
 // Routes
@@ -19,10 +22,10 @@ connectToMongoDB(process.env.MONGO_URL)
 });
 
 app.use(express.json());
-
+app.use(cookieParser());
 app.use(cors({
-  origin: `http://localhost:${PORT}`, 
-  credentials: true,
+  origin: "http://localhost:5173",
+  credentials: true
 }));
 
 app.use("/api/auth", authRoutes);
