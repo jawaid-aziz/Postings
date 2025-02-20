@@ -8,8 +8,9 @@ require("dotenv").config();
 // Database
 const connectToMongoDB = require('./config/db');
 
-// Routes
+// Importing Routes
 const authRoutes = require('./routes/auth');
+const jobRoutes = require('./routes/job');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -28,7 +29,9 @@ app.use(cors({
   credentials: true
 }));
 
+//Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/job", jobRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
