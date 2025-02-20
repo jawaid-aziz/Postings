@@ -1,26 +1,17 @@
-const Job = require('../models/job');
+const { Job } = require('../models/job');
 
 async function postJob(req, res) {
   try {
     const { jobTitle, jobDescription, jobLocation, jobType, jobSalary } = req.body;
-    const userId = req.user?.id; // Get user ID from authenticated request
 
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized. Please log in." });
-    }
-
-    // Create a new job
-    const newJob = new Job({
+    const newJob = await Job.create({
       jobTitle,
       jobDescription,
       jobLocation,
       jobType,
       jobSalary,
-      createdBy: userId,
+      createdBy: req.user.userId,
     });
-
-    // Save job to database
-    await newJob.save();
 
     res.status(201).json({ message: "Job posted successfully", job: newJob });
   } catch (error) {
@@ -29,4 +20,30 @@ async function postJob(req, res) {
   }
 }
 
-module.exports = { postJob };
+async function getPostedJobs(req, res) {
+  try {
+    const jobs = await Job.find({ createdBy: req.user.userId });
+
+    res.status(200).json({ jobs });
+  } catch (error) {
+    console.error("Get Jobs Error:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+}
+
+async function getJobs(req, res) {
+    try {
+        const jobs = await Job.find();
+    
+        res.status(200).json({ jobs });
+    } catch (error) {
+        console.error("Get Jobs Error:", error);
+        res.status(500).json({ message: "Server error. Please try again later." });
+    }
+}
+
+module.exports = { 
+    postJob,
+    getPostedJobs,
+    getJobs,
+};
