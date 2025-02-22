@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const URL = import.meta.env.VITE_APP_URL;
 
 export const SignIn = () => {
@@ -7,6 +7,8 @@ export const SignIn = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate()
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ export const SignIn = () => {
 
       setEmail("");
       setPassword("");
+      navigate("/")
     } catch (error) {
       setError("Something went wrong. Try again!");
       console.error("Login Error:", error);
@@ -41,9 +44,8 @@ export const SignIn = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Sign In</h2>
+    <div className="flex  items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg w-full max-w-md">
 
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
@@ -80,10 +82,6 @@ export const SignIn = () => {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
-
-        <p className="text-gray-600 text-center mt-4">
-          Don't have an account? <a href="/sign-up" className="text-blue-600 hover:underline">Sign Up</a>
-        </p>
       </div>
     </div>
   );

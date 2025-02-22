@@ -2,110 +2,40 @@ import React from "react";
 
 export const Home = () => {
   return (
-    <div
-      style={{
-        fontFamily: "sans-serif",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <div className="font-sans min-h-screen flex flex-col">
       {/* Header (Navbar) */}
-      <header
-        style={{
-          backgroundColor: "#f0f0f0",
-          padding: "1rem",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ fontWeight: "bold", fontSize: "1.5rem" }}>Postings</div>
-        <nav>
-          <a
-            href="#"
-            style={{ margin: "0 1rem", textDecoration: "none", color: "#333" }}
-          >
-            Browse Jobs
+      <header className="bg-gray-100 p-4 flex justify-between items-center shadow-md">
+        <div className="font-bold text-2xl text-gray-800">Postings</div>
+        <div>
+          <a href="/sign-in" className="px-5 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700">
+            Sign In
           </a>
-          <a
-            href="#"
-            style={{ margin: "0 1rem", textDecoration: "none", color: "#333" }}
-          >
-            Companies
+          <a href="/sign-up" className="px-5 py-2 bg-green-600 text-white rounded-md mx-2 hover:bg-green-700">
+            Sign Up
           </a>
-          <a
-            href="#"
-            style={{ margin: "0 1rem", textDecoration: "none", color: "#333" }}
-          >
-            About
-          </a>
-          <a
-            href="#"
-            style={{ margin: "0 1rem", textDecoration: "none", color: "#333" }}
-          >
-            Contact
-          </a>
-        </nav>
+        </div>
       </header>
 
       {/* Hero Section */}
-      <main
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          padding: "2rem",
-        }}
-      >
-        <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>
+      <main className="flex-1 flex flex-col items-center justify-center text-center p-10 bg-gray-50">
+        <h1 className="text-5xl font-bold text-gray-800 leading-tight mb-6">
           Find Your Dream Job or Hire Top Talent
         </h1>
-        <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>
-          Connect with the best opportunities and candidates.
+        <p className="text-lg text-gray-600 mb-8">
+          Connect with the best opportunities and candidates effortlessly.
         </p>
         <div>
-          <button
-            style={{
-              padding: "1rem 2rem",
-              margin: "0 1rem",
-              backgroundColor: "#007bff",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
+          <button className="px-8 py-4 mx-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
             Hire
           </button>
-          <button
-            style={{
-              padding: "1rem 2rem",
-              margin: "0 1rem",
-              backgroundColor: "#28a745",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
+          <button className="px-8 py-4 mx-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition">
             Apply
           </button>
         </div>
       </main>
 
       {/* Footer */}
-      <footer
-        style={{
-          backgroundColor: "#333",
-          color: "white",
-          padding: "1rem",
-          textAlign: "center",
-        }}
-      >
+      <footer className="bg-gray-800 text-white p-4 text-center">
         <p>&copy; {new Date().getFullYear()} Postings. All rights reserved.</p>
       </footer>
     </div>

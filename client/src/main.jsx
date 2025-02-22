@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthProvider } from './Context/AuthContext';
 import { AllRoutes } from './Routes';
 import './index.css'
 
@@ -11,7 +12,9 @@ function Main() {
 
   return(
     <StrictMode>
+      <AuthProvider>
       <RouterProvider router={router} />
+      </AuthProvider>
     </StrictMode>
   )
 }
