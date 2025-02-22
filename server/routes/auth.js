@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/sign-up', handleSignUp);
 router.post('/sign-in', handleSignIn);
 router.get('/validate', authMiddlware, (req, res) => {
-    res.json({ authenticated: true });
+    res.json(true);
 });
 
 module.exports = router;

@@ -5,7 +5,7 @@ const AuthContext = createContext();
 const URL = import.meta.env.VITE_APP_URL;
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to false
   
   // Validate authentication when the app loads
   const checkAuthStatus = async () => {
@@ -16,8 +16,10 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await res.json();
-      setIsAuthenticated(data.authenticated);
+      console.log("Auth Status Response:", data);
+      setIsAuthenticated(data.authenticated || false); // Ensure it's always a boolean
     } catch (error) {
+      console.error("Auth check failed:", error);
       setIsAuthenticated(false);
     }
   };
@@ -27,11 +29,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, checkAuthStatus }}>
+    <AuthContext.Provider value={isAuthenticated}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to use authentication state
+// Custom hook to get authentication state
 export const useAuth = () => useContext(AuthContext);
+
+export default AuthProvider;

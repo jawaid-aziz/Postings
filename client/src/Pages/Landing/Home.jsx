@@ -1,19 +1,28 @@
 import React from "react";
-
+import { isAuthenticated } from "../../Utils/isAuthenticated";
 export const Home = () => {
+  console.log(isAuthenticated());
   return (
     <div className="font-sans min-h-screen flex flex-col">
       {/* Header (Navbar) */}
       <header className="bg-gray-100 p-4 flex justify-between items-center shadow-md">
         <div className="font-bold text-2xl text-gray-800">Postings</div>
-        <div>
-          <a href="/sign-in" className="px-5 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700">
+        { isAuthenticated() ? 
+        (
+          <div>
+            <a href="/employer" className="px-5 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700">
+              Post a Job
+            </a>
+            <a href="employee" className="px-5 py-2 bg-green-600 text-white rounded-md mx-2 hover:bg-green-700">
+              Find a Job
+            </a>
+          </div>
+        ) :
+        (<div>
+          <a href="/auth" className="px-5 py-2 bg-green-600 text-white rounded-md mx-2 hover:bg-green-700">
             Sign In
           </a>
-          <a href="/sign-up" className="px-5 py-2 bg-green-600 text-white rounded-md mx-2 hover:bg-green-700">
-            Sign Up
-          </a>
-        </div>
+        </div>) }
       </header>
 
       {/* Hero Section */}
@@ -26,10 +35,10 @@ export const Home = () => {
         </p>
         <div>
           <button className="px-8 py-4 mx-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
-            Hire
+            <a href="/employer">Hire</a>
           </button>
           <button className="px-8 py-4 mx-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition">
-            Apply
+            <a href="/employee">Apply</a>
           </button>
         </div>
       </main>
