@@ -1,26 +1,30 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const AuthContext = createContext();
-
 const URL = import.meta.env.VITE_APP_URL;
 
-export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to false
-  
-  // Validate authentication when the app loads
+const AuthContext = createContext();
+
+
+export const AuthProvider = ({children}) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // null for loading state
+
   const checkAuthStatus = async () => {
     try {
       const res = await fetch(`${URL}/auth/validate`, {
         method: "GET",
-        credentials: "include", // To include cookies
+        credentials: "include",
       });
 
       const data = await res.json();
       console.log("Auth Status Response:", data);
-      setIsAuthenticated(data.authenticated || false); // Ensure it's always a boolean
+
+      setIsAuthenticated(data); // ✅ Update React state immediately
+      localStorage.setItem("token", JSON.stringify(data));
+
     } catch (error) {
       console.error("Auth check failed:", error);
       setIsAuthenticated(false);
+      localStorage.setItem("token", false);
     }
   };
 
@@ -29,13 +33,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={isAuthenticated}>
+    <AuthContext.Provider value={{ isAuthenticated, checkAuthStatus }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to get authentication state
 export const useAuth = () => useContext(AuthContext);
-
-export default AuthProvider;

@@ -5,7 +5,7 @@ require("dotenv").config();
 function authMiddlware(req, res, next) {
     const token = req.cookies?.token; // 🔹 Extract token from cookie
 
-    if (!token) return res.status(401).json(false);
+    if (!token) return res.json(false);
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET); // ✅ Decode token

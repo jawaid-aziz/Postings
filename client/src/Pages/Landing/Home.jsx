@@ -1,13 +1,13 @@
 import React from "react";
-import { isAuthenticated } from "../../Utils/isAuthenticated";
+import { useAuth } from "../../Context/AuthProvider";
 export const Home = () => {
-  console.log(isAuthenticated());
+  const { isAuthenticated } = useAuth();
   return (
     <div className="font-sans min-h-screen flex flex-col">
       {/* Header (Navbar) */}
       <header className="bg-gray-100 p-4 flex justify-between items-center shadow-md">
         <div className="font-bold text-2xl text-gray-800">Postings</div>
-        { isAuthenticated() ? 
+        { isAuthenticated ? 
         (
           <div>
             <a href="/employer" className="px-5 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700">

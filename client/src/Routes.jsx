@@ -1,19 +1,9 @@
+import { Navigate } from "react-router-dom";
 import { Home } from "./Pages/Landing/Home";
 import { PostJobs } from "./Pages/Dashboard/PostJobs";
 import { GetJobs } from "./Pages/Dashboard/GetJobs";
 import { Authorization } from "./Pages/Auth/Authorization";
-import useAuth from "./Context/AuthContext";
-
-// Wrapper component to handle authentication
-const ProtectedRoute = ({ element: Element, redirectTo: RedirectTo }) => {
-    const isAuthenticated = useAuth(); // Use the useAuth hook here
-  
-    if (!isAuthenticated) {
-      return <RedirectTo />; // Redirect to the authorization page if not authenticated
-    }
-  
-    return <Element />; // Render the protected component if authenticated
-  };
+import { isTokenValid } from "./Utils/isTokenValid";
 
 export const AllRoutes = 
 [
@@ -24,14 +14,14 @@ export const AllRoutes =
   },
   {
     path: "/employer",
-    element: <ProtectedRoute element={PostJobs} redirectTo={Authorization} />,
+    element: isTokenValid() ? <PostJobs /> : <Navigate to="/auth"/>,
   },
   {
     path: "/employee",
-    element: <ProtectedRoute element={GetJobs} redirectTo={Authorization} />,
+    element: isTokenValid() ? <GetJobs /> : <Navigate to="/auth" />,
   },
   {
     path: "/auth",
-    element: <ProtectedRoute element={Home} redirectTo={Authorization} />,
+    element: isTokenValid() ? <Navigate to="/" /> : <Authorization />,
   },
 ];

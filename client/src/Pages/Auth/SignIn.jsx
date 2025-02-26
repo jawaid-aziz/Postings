@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthProvider";
 const URL = import.meta.env.VITE_APP_URL;
 
 export const SignIn = () => {
@@ -7,6 +8,8 @@ export const SignIn = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { checkAuthStatus } = useAuth();
 
   const navigate = useNavigate()
 
@@ -34,6 +37,7 @@ export const SignIn = () => {
 
       setEmail("");
       setPassword("");
+      checkAuthStatus(); // ✅ Update auth state immediately
       navigate("/")
     } catch (error) {
       setError("Something went wrong. Try again!");
