@@ -72,7 +72,9 @@ export const GetJobs = () => {
                     <strong>💰 Salary:</strong> {job.jobSalary}
                   </p>
                 </div>
-                <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700">
+                <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700"
+                  onClick={() => window.location.href = `employee/apply/${job._id}`}
+                >
                   Apply Now
                 </button>
               </div>

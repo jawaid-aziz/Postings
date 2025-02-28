@@ -72,6 +72,29 @@ export const PostJobs = () => {
     }
   };
 
+  const handleDeleteJob = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
+
+    try {
+      const response = await fetch(`${URL}/job/delete/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error(data.error || "Something went wrong");
+
+      const data = await response.json();
+
+      alert("Job deleted successfully!");
+    } catch (error) {
+      console.log("Error:", error.message);
+      alert(error.message);
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
       <h1>Employer Portal</h1>
@@ -143,7 +166,10 @@ export const PostJobs = () => {
         <div className="space-y-4">
           {jobs.length > 0 ? (
             jobs.map((job) => (
-              <div key={job._id} className="p-4 border rounded-md shadow">
+              <div
+                key={job._id}
+                className="p-4 border rounded-md shadow relative"
+              >
                 <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
                 <p className="text-gray-600">{job.jobDescription}</p>
                 <p className="text-sm">
@@ -155,6 +181,25 @@ export const PostJobs = () => {
                 <p className="text-sm">
                   <strong>Salary:</strong> {job.jobSalary}
                 </p>
+
+                {/* Buttons Container */}
+                <div className="mt-3 flex space-x-2">
+                  {/* View Applications Button */}
+                  <button
+                    onClick={() => handleViewApplications(job._id)}
+                    className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
+                  >
+                    View Applications
+                  </button>
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDeleteJob(job._id)}
+                    className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))
           ) : (
