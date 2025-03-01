@@ -4,6 +4,7 @@ import { PostJobs } from "./Pages/Dashboard/Employer/PostJobs";
 import { GetJobs } from "./Pages/Dashboard/Employee/GetJobs";
 import { Authorization } from "./Pages/Auth/Authorization";
 import { ApplyForm } from "./Pages/Dashboard/Employee/ApplyForm";
+import { Applications } from "./Pages/Dashboard/Employer/Applications";
 import { isTokenValid } from "./Utils/isTokenValid";
 
 export const AllRoutes = 
@@ -22,8 +23,12 @@ export const AllRoutes =
     element: isTokenValid() ? <GetJobs /> : <Navigate to="/auth" />,
   },
   {
-    path: "employee/apply/:id",
-    element: <ApplyForm />,
+    path: "/employee/apply/:id",
+    element: isTokenValid() ? <ApplyForm /> : <Navigate to="/auth" />,
+  },
+  {
+    path: "/employer/applications/:id",
+    element: isTokenValid() ? <Applications /> : <Navigate to="/auth" />,
   },
   {
     path: "/auth",

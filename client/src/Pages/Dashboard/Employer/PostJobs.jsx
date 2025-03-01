@@ -186,7 +186,7 @@ export const PostJobs = () => {
                 <div className="mt-3 flex space-x-2">
                   {/* View Applications Button */}
                   <button
-                    onClick={() => handleViewApplications(job._id)}
+                    onClick={() => window.location.href = `/employer/applications/${job._id}`}
                     className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
                   >
                     View Applications

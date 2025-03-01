@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const getUser = require('../utils/token');
 require("dotenv").config();
 
-function authMiddlware(req, res, next) {
+function authMiddleware(req, res, next) {
     const token = req.cookies?.token; // 🔹 Extract token from cookie
 
     if (!token) return res.json(false);
@@ -16,4 +16,4 @@ function authMiddlware(req, res, next) {
     }
 }
 
-module.exports = authMiddlware;
+module.exports = authMiddleware;

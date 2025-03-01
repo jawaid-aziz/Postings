@@ -1,17 +1,19 @@
 const express = require('express');
-const { postJob, getPostedJobs, getJobs, deleteJob, applyJob } = require('../controllers/job');
-const authMiddlware = require('../middlewares/auth');
+const { postJob, getPostedJobs, getJobs, deleteJob, applyJob, getAllApplications, downloadResume } = require('../controllers/job');
+const authMiddleware = require('../middlewares/auth');
 const uploadMiddleware = require('../middlewares/upload');
 
 const router = express.Router();
 
 // Employer
-router.post('/post', authMiddlware, postJob);
-router.get('/posted-jobs', authMiddlware, getPostedJobs );
-router.delete('/delete/:id', authMiddlware, deleteJob );
+router.post('/post', authMiddleware, postJob);
+router.get('/posted-jobs', authMiddleware, getPostedJobs );
+router.delete('/delete/:id', authMiddleware, deleteJob );
+router.get('/allApplications/:id', authMiddleware, getAllApplications );
+router.get("/download/:resume", authMiddleware, downloadResume)
 
 // Employee
-router.get('/all', authMiddlware, getJobs );
-router.post('/apply/:id', authMiddlware, uploadMiddleware, applyJob );
+router.get('/all', authMiddleware, getJobs );
+router.post('/apply/:id', authMiddleware, uploadMiddleware, applyJob );
 
 module.exports = router;

@@ -1,5 +1,10 @@
+const path = require("path");
+const fileURLToPath = require("url");
 const { Job } = require('../models/job');
-const JobApplication  = require('../models/JobApplication');
+const JobApplication = require('../models/JobApplication');
+
+const dirname = path.resolve();
+
 // Employer
 
 async function postJob(req, res) {
@@ -32,6 +37,40 @@ async function getPostedJobs(req, res) {
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 }
+
+async function getAllApplications(req, res) {
+  try {
+    const applications = await JobApplication.find({ jobId: req.params.id });
+    res.status(200).json({ applications });
+  } catch (error) {
+    console.log("Get All Applications Error:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+}
+
+async function downloadResume(req, res) {
+  try {
+    console.log("Req params:", req.params);
+    console.log("Req body:", req.body);
+
+    const { resume } = req.params; // Get the filename from URL params
+
+    console.log("dirname:", dirname);
+
+    const filePath = path.join(dirname, "uploads", resume); // Resume path
+    console.log("filepath:", filePath);
+
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        console.error("Error downloading file:", err);
+        res.status(500).json({ message: "Error downloading file" });
+      }
+    });
+  } catch (error) {
+    console.error("Download error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 
 async function deleteJob(req, res) {
   try {
@@ -71,23 +110,22 @@ async function getJobs(req, res) {
 async function applyJob(req, res) {
   try {
     const id = req.params.id;
-    console.log("Req params: ", req.params);
-    console.log("Req body: ", req.body);
     // Ensure a file was uploaded
     if (!req.file) {
       return res.status(400).json({ error: "Resume file is required" });
     }
+
     // Save application to database
     const newApplication = new JobApplication({
       jobId: id,
-      resume: req.file.path // Save file path
+      resume: req.file.filename // Save file path
     });
 
     await newApplication.save();
 
     res.json({
-        message: "Job application submitted successfully",
-        application: newApplication
+      message: "Job application submitted successfully",
+      application: newApplication
     });
   } catch (error) {
     console.error("Job Application Error:", error);
@@ -101,4 +139,6 @@ module.exports = {
   getJobs,
   deleteJob,
   applyJob,
+  getAllApplications,
+  downloadResume,
 };
