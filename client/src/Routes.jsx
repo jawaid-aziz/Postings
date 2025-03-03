@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { Layout } from "./Pages/Layout/Layout";
 import { Home } from "./Pages/Landing/Home";
 import { PostJobs } from "./Pages/Dashboard/Employer/PostJobs";
+import { PostedJobs } from "./Pages/Dashboard/Employer/PostedJobs";
 import { GetJobs } from "./Pages/Dashboard/Employee/GetJobs";
 import { Authorization } from "./Pages/Auth/Authorization";
 import { ApplyForm } from "./Pages/Dashboard/Employee/ApplyForm";
@@ -20,8 +21,12 @@ export const AllRoutes =
         element: <Home />,
       },
       {
-        path: "employer",
+        path: "employer/post-job",
         element: isTokenValid() ? <PostJobs /> : <Navigate to="/auth"/>,
+      },
+      {
+        path: "employer/posted-jobs",
+        element: isTokenValid() ? <PostedJobs /> : <Navigate to="/auth" />,
       },
       {
         path: "employee",

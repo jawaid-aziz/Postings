@@ -17,7 +17,8 @@ export const Header = () => {
             <option value="" selected disabled>
               Hire
             </option>
-            <option value="/employer">Your Posted Jobs</option>
+            <option value="/employer/post-job">Post a Job</option>
+            <option value="/employer/posted-jobs">View Applications</option>
           </select>
 
           <select
