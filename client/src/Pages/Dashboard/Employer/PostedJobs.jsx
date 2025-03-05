@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
+
 const URL = import.meta.env.VITE_APP_URL;
 
 export const PostedJobs = () => {
   const [jobs, setJobs] = useState([]);
 
-  const getPostedJobs = async () => {
-    try {
-      const response = await fetch(`${URL}/job/posted-jobs`, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Something went wrong");
-
-      setJobs(data.jobs);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
+    const getPostedJobs = async () => {
+      try {
+        const response = await fetch(`${URL}/job/posted-jobs`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Something went wrong");
+
+        setJobs(data.jobs);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
     getPostedJobs();
   }, []);
 
   const handleDeleteJob = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this job?")) return;
-
     try {
       const response = await fetch(`${URL}/job/delete/${id}`, {
         method: "DELETE",
@@ -36,10 +38,9 @@ export const PostedJobs = () => {
         },
       });
 
-      if (!response.ok) throw new Error(data.error || "Something went wrong");
+      if (!response.ok) throw new Error("Something went wrong");
 
-      const data = await response.json();
-
+      setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
       alert("Job deleted successfully!");
     } catch (error) {
       console.log("Error:", error.message);
@@ -48,52 +49,46 @@ export const PostedJobs = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Your Posted Jobs</h2>
+    <div className="max-w-4xl mx-auto mt-6 p-6">
+      <h2 className="text-3xl font-bold text-teal-900 mb-6">Your Posted Jobs</h2>
 
       <div className="space-y-4">
         {jobs.length > 0 ? (
           jobs.map((job) => (
-            <div
-              key={job._id}
-              className="p-4 border rounded-md shadow relative"
-            >
-              <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
-              <p className="text-gray-600">{job.jobDescription}</p>
-              <p className="text-sm">
-                <strong>Location:</strong> {job.jobLocation}
-              </p>
-              <p className="text-sm">
-                <strong>Type:</strong> {job.jobType}
-              </p>
-              <p className="text-sm">
-                <strong>Salary:</strong> {job.jobSalary}
-              </p>
+            <Card key={job._id}>
+              <CardHeader>
+                <CardTitle className="text-teal-800">{job.jobTitle}</CardTitle>
+                <CardDescription>{job.jobDescription}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700"><strong>Location:</strong> {job.jobLocation}</p>
+                <p className="text-gray-700"><strong>Type:</strong> {job.jobType}</p>
+                <p className="text-gray-700"><strong>Salary:</strong> {job.jobSalary}</p>
 
-              {/* Buttons Container */}
-              <div className="mt-3 flex space-x-2">
-                {/* View Applications Button */}
-                <button
-                  onClick={() =>
-                    (window.location.href = `/employer/applications/${job._id}`)
-                  }
-                  className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
-                >
-                  View Applications
-                </button>
+                <div className="mt-4 flex space-x-3">
+                  <Button variant="outline" onClick={() => (window.location.href = `/employer/applications/${job._id}`)}>
+                    View Applications
+                  </Button>
 
-                {/* Delete Button */}
-                <button
-                  onClick={() => handleDeleteJob(job._id)}
-                  className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive">Delete</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <h2 className="text-lg font-bold">Are you sure?</h2>
+                      <p>This action cannot be undone. This will permanently delete the job.</p>
+                      <div className="flex justify-end space-x-2">
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleDeleteJob(job._id)}>Delete</AlertDialogAction>
+                      </div>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </CardContent>
+            </Card>
           ))
         ) : (
-          <p>No jobs posted yet.</p>
+          <p className="text-teal-700">No jobs posted yet.</p>
         )}
       </div>
     </div>

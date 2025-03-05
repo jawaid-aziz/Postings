@@ -1,42 +1,47 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const URL = import.meta.env.VITE_APP_URL;
 
 export const SignUp = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const response = await fetch(`${URL}/auth/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, password }),
+        body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.message || "Failed to sign up.");
-        return;
-      }
-
       const data = await response.json();
-      console.log("Sign Up Success:", data);
+      if (!response.ok) throw new Error(data.message || "Failed to sign up.");
 
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
+      toast.success("Account created successfully! 🎉");
+      setFormData({ firstName: "", lastName: "", email: "", password: "" });
+
+      navigate("/sign-in");
     } catch (error) {
-      setError("Something went wrong. Try again!");
+      toast.error(error.message);
       console.error("Signup Error:", error);
     } finally {
       setLoading(false);
@@ -44,69 +49,54 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="flex items-center justify-center ">
-      <div className="bg-white p-8 rounded-lg w-full max-w-md">
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-        <form onSubmit={handleSignUp} className="space-y-4">
-          <div className="flex gap-2">
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium">First Name</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <Card className="w-full max-w-md p-6">
+        <CardHeader>
+          <CardTitle className="text-center">Create an Account</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSignUp} className="space-y-4">
+            <div className="flex gap-2">
+              <Input
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 required
-                placeholder="John"
+                placeholder="First Name"
+              />
+              <Input
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+                placeholder="Last Name"
               />
             </div>
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium">Last Name</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                placeholder="Doe"
-              />
-            </div>
-          </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium">Email</label>
-            <input
+            <Input
               type="email"
-              className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
-              placeholder="johndoe@example.com"
+              placeholder="Email Address"
             />
-          </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium">Password</label>
-            <input
+            <Input
               type="password"
-              className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
-              placeholder="Enter your password"
+              placeholder="Password"
             />
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 disabled:bg-blue-400"
-          >
-            {loading ? "Signing Up..." : "Sign Up"}
-          </button>
-        </form>
-      </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Signing Up..." : "Sign Up"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

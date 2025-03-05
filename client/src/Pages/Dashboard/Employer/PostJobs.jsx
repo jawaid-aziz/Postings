@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+
 const URL = import.meta.env.VITE_APP_URL;
 
 export const PostJobs = () => {
-
   const [formData, setFormData] = useState({
     jobTitle: "",
     jobDescription: "",
@@ -28,9 +34,7 @@ export const PostJobs = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
@@ -52,70 +56,81 @@ export const PostJobs = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h1>Employer Portal</h1>
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Post a Job</h2>
+    <div className="max-w-lg mx-auto mt-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-teal-900">Post a Job</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handlePostJob} className="space-y-4">
+            <div>
+              <Label>Job Title</Label>
+              <Input
+                type="text"
+                name="jobTitle"
+                placeholder="Enter job title"
+                value={formData.jobTitle}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <form onSubmit={handlePostJob} className="space-y-4">
-          <input
-            type="text"
-            name="jobTitle"
-            placeholder="Job Title"
-            value={formData.jobTitle}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-          <textarea
-            name="jobDescription"
-            placeholder="Job Description"
-            value={formData.jobDescription}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-          <input
-            type="text"
-            name="jobLocation"
-            placeholder="Location"
-            value={formData.jobLocation}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-          <select
-            name="jobType"
-            value={formData.jobType}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="">Select Job Type</option>
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-            <option value="Remote">Remote</option>
-            <option value="Contract">Contract</option>
-          </select>
-          <input
-            type="number"
-            name="jobSalary"
-            placeholder="Salary"
-            value={formData.jobSalary}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
+            <div>
+              <Label>Job Description</Label>
+              <Textarea
+                name="jobDescription"
+                placeholder="Enter job description"
+                value={formData.jobDescription}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-md"
-          >
-            {loading ? "Posting..." : "Post Job"}
-          </button>
-        </form>
-      </div>
+            <div>
+              <Label>Location</Label>
+              <Input
+                type="text"
+                name="jobLocation"
+                placeholder="Enter location"
+                value={formData.jobLocation}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <Label>Job Type</Label>
+              <Select onValueChange={(value) => setFormData({ ...formData, jobType: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Job Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Full-time">Full-time</SelectItem>
+                  <SelectItem value="Part-time">Part-time</SelectItem>
+                  <SelectItem value="Remote">Remote</SelectItem>
+                  <SelectItem value="Contract">Contract</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Salary</Label>
+              <Input
+                type="number"
+                name="jobSalary"
+                placeholder="Enter salary"
+                value={formData.jobSalary}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? "Posting..." : "Post Job"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
