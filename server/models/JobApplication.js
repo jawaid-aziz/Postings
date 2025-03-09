@@ -10,6 +10,16 @@ const JobApplicationSchema = new mongoose.Schema({
         type: String, // Stores file path like "uploads/resume-123.pdf"
         required: true
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User", // Reference to the User model
+        required: true
+    },
+    submittedBy: {
+        type: String,
+        ref: "User", // Reference to the User model
+        required: true
+    },
     submittedAt: {
         type: Date,
         default: Date.now

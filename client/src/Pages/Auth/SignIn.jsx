@@ -4,7 +4,7 @@ import { useAuth } from "../../Context/AuthProvider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { toast } from "sonner";
+import { Toaster, toast } from 'sonner';
 
 const URL = import.meta.env.VITE_APP_URL;
 
@@ -47,6 +47,7 @@ export const SignIn = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <Toaster position="bottom-right" />
       <Card className="w-full max-w-md p-6">
         <CardHeader>
           <CardTitle className="text-center">Sign In</CardTitle>

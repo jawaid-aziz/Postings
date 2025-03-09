@@ -2,6 +2,7 @@ const path = require("path");
 const fileURLToPath = require("url");
 const { Job } = require('../models/job');
 const JobApplication = require('../models/JobApplication');
+const User = require("../models/user");
 
 const dirname = path.resolve();
 
@@ -50,15 +51,14 @@ async function getAllApplications(req, res) {
 
 async function downloadResume(req, res) {
   try {
-    console.log("Req params:", req.params);
-    console.log("Req body:", req.body);
 
     const { resume } = req.params; // Get the filename from URL params
 
-    console.log("dirname:", dirname);
-
     const filePath = path.join(dirname, "uploads", resume); // Resume path
-    console.log("filepath:", filePath);
+
+    // Set headers to force download with correct filename
+    res.setHeader("Content-Disposition", `attachment; filename="${resume}"`);
+    res.setHeader("Content-Type", "application/pdf");
 
     res.sendFile(filePath, (err) => {
       if (err) {
@@ -115,10 +115,18 @@ async function applyJob(req, res) {
       return res.status(400).json({ error: "Resume file is required" });
     }
 
+    const existUser = await JobApplication.findOne({ jobId: id, userId: req.user.userId });
+    if (existUser) {
+      return res.status(400).json({ error: "You have already applied for this job" });
+    }
+
+    const user = await User.findById(req.user.userId);
     // Save application to database
     const newApplication = new JobApplication({
       jobId: id,
-      resume: req.file.filename // Save file path
+      resume: req.file.filename, // Save file path
+      userId: user._id,
+      submittedBy: user.firstName + " " + user.lastName
     });
 
     await newApplication.save();

@@ -39,6 +39,15 @@ export const Applications = () => {
 
       if (!response.ok) throw new Error("Error downloading resume");
 
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+
       // Implement file download logic here
     } catch (error) {
       console.error("Error downloading resume:", error);
@@ -62,7 +71,7 @@ export const Applications = () => {
           {applications.map((app) => (
             <Card key={app._id}>
               <CardHeader>
-                <CardTitle className="text-teal-800">Submitted At: {app.submittedAt}</CardTitle>
+                <CardTitle className="text-teal-800">{app.submittedBy}</CardTitle>
               </CardHeader>
               <CardContent className="flex justify-between items-center">
                 <Button onClick={handleDownloadResume(app.resume)} variant="outline">

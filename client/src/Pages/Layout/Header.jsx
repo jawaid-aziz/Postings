@@ -1,14 +1,17 @@
 import { useAuth } from "../../Context/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const { isAuthenticated } = useAuth();
-
+  const navigate = useNavigate();
   return (
     <header className="bg-teal-50 dark:bg-teal-900 p-4 flex justify-between items-center shadow-md">
       {/* Logo */}
-      <div className="font-bold text-2xl text-teal-900 dark:text-teal-100">Postings</div>
+      <div className="font-bold text-2xl text-teal-900 dark:text-teal-100 cursor-pointer"
+      onClick={() => navigate(`/`)}
+      >Postings</div>
 
       {isAuthenticated ? (
         <div className="flex items-center space-x-4">
