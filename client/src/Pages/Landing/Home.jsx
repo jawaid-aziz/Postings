@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+
+  const navigate = useNavigate();
 
   return (
     <main className="flex-1 flex flex-col items-center justify-center text-center p-10 bg-teal-50">
@@ -11,10 +14,14 @@ export const Home = () => {
         Connect with the best opportunities and candidates effortlessly.
       </p>
       <div className="flex space-x-4">
-        <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4">
-          <a href="/employer/post-job">Hire</a>
+        <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4"
+          onclick={() => navigate(`/employer/post-job`)}
+        >
+          <a href="employer/post-job">Hire</a>
         </Button>
-        <Button asChild className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4">
+        <Button asChild className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4"
+          onclick={() => navigate(`/employee`)}
+        >
           <a href="/employee">Apply</a>
         </Button>
       </div>

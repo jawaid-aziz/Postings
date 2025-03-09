@@ -11,9 +11,6 @@ export const Authorization = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <Card className="w-full max-w-md p-6">
         <CardHeader className="flex flex-col items-center">
-          <CardTitle className="text-center text-2xl font-bold">
-            {isSignIn ? "Sign In" : "Create an Account"}
-          </CardTitle>
           <Button
             variant="outline"
             className="mt-3 w-full"

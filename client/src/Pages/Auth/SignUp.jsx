@@ -49,9 +49,9 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center">
       <Toaster position="bottom-right" />
-      <Card className="w-full max-w-md p-6">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center">Create an Account</CardTitle>
         </CardHeader>
