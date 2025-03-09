@@ -53,7 +53,7 @@ export const ApplyForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-6">
+    <div className="max-w-md mx-auto mt-6 h-screen">
       <Card>
         <CardHeader>
           <CardTitle className="text-teal-900">Apply for Job</CardTitle>

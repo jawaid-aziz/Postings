@@ -56,25 +56,40 @@ export const PostJobs = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-6">
-      <Card>
+    <div className="max-w-3xl mx-auto mt-6">
+      <Card className="w-full p-6">
         <CardHeader>
-          <CardTitle className="text-teal-900">Post a Job</CardTitle>
+          <CardTitle className="text-teal-900 text-2xl">Post a Job</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handlePostJob} className="space-y-4">
-            <div>
-              <Label>Job Title</Label>
-              <Input
-                type="text"
-                name="jobTitle"
-                placeholder="Enter job title"
-                value={formData.jobTitle}
-                onChange={handleChange}
-                required
-              />
+            {/* Job Title & Location in one row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Job Title</Label>
+                <Input
+                  type="text"
+                  name="jobTitle"
+                  placeholder="Enter job title"
+                  value={formData.jobTitle}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <Label>Location</Label>
+                <Input
+                  type="text"
+                  name="jobLocation"
+                  placeholder="Enter location"
+                  value={formData.jobLocation}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
+            {/* Job Description in full row */}
             <div>
               <Label>Job Description</Label>
               <Textarea
@@ -83,49 +98,40 @@ export const PostJobs = () => {
                 value={formData.jobDescription}
                 onChange={handleChange}
                 required
+                className="h-32"
               />
             </div>
 
-            <div>
-              <Label>Location</Label>
-              <Input
-                type="text"
-                name="jobLocation"
-                placeholder="Enter location"
-                value={formData.jobLocation}
-                onChange={handleChange}
-                required
-              />
+            {/* Job Type & Salary in one row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Job Type</Label>
+                <Select onValueChange={(value) => setFormData({ ...formData, jobType: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Job Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Full-time">Full-time</SelectItem>
+                    <SelectItem value="Part-time">Part-time</SelectItem>
+                    <SelectItem value="Remote">Remote</SelectItem>
+                    <SelectItem value="Contract">Contract</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Salary/month</Label>
+                <Input
+                  type="number"
+                  name="jobSalary"
+                  placeholder="Enter salary"
+                  value={formData.jobSalary}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
-            <div>
-              <Label>Job Type</Label>
-              <Select onValueChange={(value) => setFormData({ ...formData, jobType: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Job Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Full-time">Full-time</SelectItem>
-                  <SelectItem value="Part-time">Part-time</SelectItem>
-                  <SelectItem value="Remote">Remote</SelectItem>
-                  <SelectItem value="Contract">Contract</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label>Salary</Label>
-              <Input
-                type="number"
-                name="jobSalary"
-                placeholder="Enter salary"
-                value={formData.jobSalary}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <Button type="submit" disabled={loading} className="w-full">
+            <Button type="submit" disabled={loading} className="w-full text-lg">
               {loading ? "Posting..." : "Post Job"}
             </Button>
           </form>

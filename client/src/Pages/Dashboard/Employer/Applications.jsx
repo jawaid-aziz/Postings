@@ -55,7 +55,7 @@ export const Applications = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-6 p-6">
+    <div className="max-w-4xl mx-auto  p-6 h-screen">
       <h2 className="text-3xl font-bold text-teal-900 mb-6">Job Applications</h2>
 
       {loading ? (
@@ -67,7 +67,7 @@ export const Applications = () => {
       ) : applications.length === 0 ? (
         <p className="text-teal-700">No applications found.</p>
       ) : (
-        <div className="space-y-4">
+        <div className="flex space-x-4 flex-wrap">
           {applications.map((app) => (
             <Card key={app._id}>
               <CardHeader>

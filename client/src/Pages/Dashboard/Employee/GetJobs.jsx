@@ -38,7 +38,7 @@ export const GetJobs = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-teal-900 mb-6 text-center">
           Explore Job Opportunities
         </h1>
 
@@ -51,7 +51,7 @@ export const GetJobs = () => {
                   <CardHeader>
                     <Skeleton className="h-6 w-3/4 bg-gray-300 rounded" />
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex flex-col flex-grow">
                     <Skeleton className="h-4 w-full bg-gray-300 rounded mb-2" />
                     <Skeleton className="h-4 w-2/3 bg-gray-300 rounded" />
                   </CardContent>
@@ -61,19 +61,21 @@ export const GetJobs = () => {
         ) : jobs.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {jobs.map((job) => (
-              <Card key={job._id} className="shadow-md hover:shadow-lg transition-shadow duration-300">
+              <Card key={job._id} className="flex flex-col h-full shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
-                  <CardTitle className="text-blue-600">{job.jobTitle}</CardTitle>
+                  <CardTitle className="text-teal-800">{job.jobTitle}</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col flex-grow">
                   <p className="text-gray-700">{job.jobDescription}</p>
-                  <div className="mt-3 text-sm text-gray-600">
+                  <div className="mt-3 text-sm text-gray-600 mb-4">
                     <p><strong>📍 Location:</strong> {job.jobLocation}</p>
                     <p><strong>💼 Type:</strong> {job.jobType}</p>
                     <p><strong>💰 Salary:</strong> {job.jobSalary}</p>
                   </div>
-                  <Button
-                    className="mt-4 w-full"
+                  
+                  {/* Forces the Apply button to stay at the bottom */}
+                  <Button 
+                    className="mt-auto w-full" 
                     onClick={() => navigate(`/employee/apply/${job._id}`)}
                   >
                     Apply Now

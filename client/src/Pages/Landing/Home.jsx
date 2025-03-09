@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { useAuth } from "../../Context/AuthProvider";
 
 export const Home = () => {
-  const { isAuthenticated } = useAuth();
 
   return (
     <main className="flex-1 flex flex-col items-center justify-center text-center p-10 bg-teal-50">
@@ -14,7 +12,7 @@ export const Home = () => {
       </p>
       <div className="flex space-x-4">
         <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4">
-          <a href="/employer">Hire</a>
+          <a href="/employer/post-job">Hire</a>
         </Button>
         <Button asChild className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4">
           <a href="/employee">Apply</a>
