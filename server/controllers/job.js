@@ -1,5 +1,5 @@
 const path = require("path");
-const fileURLToPath = require("url");
+const fs = require("fs");
 const { Job } = require('../models/job');
 const JobApplication = require('../models/JobApplication');
 const User = require("../models/user");
@@ -110,13 +110,16 @@ async function getJobs(req, res) {
 async function applyJob(req, res) {
   try {
     const id = req.params.id;
+    console.log(req.file);
     // Ensure a file was uploaded
     if (!req.file) {
       return res.status(400).json({ error: "Resume file is required" });
-    }
+    } 
 
     const existUser = await JobApplication.findOne({ jobId: id, userId: req.user.userId });
     if (existUser) {
+      fs.unlinkSync(path.join(dirname, "uploads", req.file.filename));
+      console.log("You have already applied for this job");
       return res.status(400).json({ error: "You have already applied for this job" });
     }
 
@@ -137,6 +140,12 @@ async function applyJob(req, res) {
     });
   } catch (error) {
     console.error("Job Application Error:", error);
+
+    // ❌ If any error occurs, delete uploaded file
+    if (req.file) {
+      fs.unlinkSync(path.join(dirname, "uploads", req.file.filename));
+    }
+
     res.status(500).json({ error: "Internal Server Error" });
   }
 }

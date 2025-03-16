@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -55,9 +55,9 @@ export const Applications = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto  p-6 h-screen">
+    <div className=" p-6 h-screen">
       <h2 className="text-3xl font-bold text-teal-900 mb-6">Job Applications</h2>
-
+  
       {loading ? (
         <div className="space-y-4">
           <Skeleton className="h-12 w-full rounded-lg" />
@@ -67,13 +67,11 @@ export const Applications = () => {
       ) : applications.length === 0 ? (
         <p className="text-teal-700">No applications found.</p>
       ) : (
-        <div className="flex space-x-4 flex-wrap">
+        <div className="space-y-4">
           {applications.map((app) => (
             <Card key={app._id}>
-              <CardHeader>
-                <CardTitle className="text-teal-800">{app.submittedBy}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex justify-between items-center">
+              <CardContent className="flex items-center justify-between p-3">
+              <span className="text-lg font-medium text-teal-800">{app.submittedBy}</span>
                 <Button onClick={handleDownloadResume(app.resume)} variant="outline">
                   View Resume
                 </Button>
