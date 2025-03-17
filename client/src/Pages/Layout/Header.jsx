@@ -2,6 +2,7 @@ import { useAuth } from "../../Context/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const URL = import.meta.env.VITE_APP_URL;
 
@@ -18,10 +19,12 @@ export const Header = () => {
 
       const data = await response.json();
       console.log("Logout Response:", data);
+      toast.success("Logged out successfully", { duration: 5000 });
       navigate("/");
     }
     catch (error) {
       console.error("Logout Error:", error);
+      toast.error(error.message, { duration: 5000 });
     }
     finally{
       checkAuthStatus();

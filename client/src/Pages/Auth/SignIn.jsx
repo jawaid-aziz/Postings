@@ -4,7 +4,7 @@ import { useAuth } from "../../Context/AuthProvider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Toaster, toast } from 'sonner';
+import toast from "react-hot-toast";
 
 const URL = import.meta.env.VITE_APP_URL;
 
@@ -31,14 +31,14 @@ export const SignIn = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Invalid credentials");
 
-      toast.success("Login successful!");
+      toast.success("Log-in successfull", { duration: 5000 });
       checkAuthStatus(); // ✅ Update auth state immediately
 
       setEmail("");
       setPassword("");
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, { duration: 5000 });
       console.error("Login Error:", error);
     } finally {
       setLoading(false);
@@ -47,7 +47,6 @@ export const SignIn = () => {
 
   return (
     <div className="flex items-center justify-center ">
-      <Toaster position="bottom-right" />
       <Card className="w-full max-w-md ">
         <CardHeader>
           <CardTitle className="text-center">Sign In</CardTitle>

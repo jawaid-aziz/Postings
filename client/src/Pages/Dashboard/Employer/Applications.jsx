@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Card, CardContent} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import toast from "react-hot-toast";
 
 const URL = import.meta.env.VITE_APP_URL;
 
@@ -22,6 +23,7 @@ export const Applications = () => {
         setApplications(data.applications);
       } catch (error) {
         console.error("Error fetching applications:", error);
+        toast.error(error.message, { duration: 5000 });
       } finally {
         setLoading(false);
       }
@@ -51,6 +53,7 @@ export const Applications = () => {
       // Implement file download logic here
     } catch (error) {
       console.error("Error downloading resume:", error);
+      toast.error(error.message, { duration: 5000 });
     }
   };
 

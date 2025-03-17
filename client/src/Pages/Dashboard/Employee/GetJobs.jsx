@@ -22,10 +22,10 @@ export const GetJobs = () => {
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || "Failed to fetch jobs.");
-
+        console.log(data.jobs);
         setJobs(data.jobs);
       } catch (error) {
-        toast.error(error.message);
+        toast.error(error.message, { duration: 5000 });
         console.error("Error fetching jobs:", error);
       } finally {
         setLoading(false);
@@ -34,6 +34,12 @@ export const GetJobs = () => {
 
     fetchJobs();
   }, []);
+
+  const limitText = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -66,7 +72,7 @@ export const GetJobs = () => {
                   <CardTitle className="text-teal-800">{job.jobTitle}</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col flex-grow">
-                  <p className="text-gray-700">{job.jobDescription}</p>
+                  <p className="text-gray-700 whitespace-pre-wrap">{limitText(job.jobDescription, 20)}</p>
                   <div className="mt-3 text-sm text-gray-600 mb-4">
                     <p><strong>📍 Location:</strong> {job.jobLocation}</p>
                     <p><strong>💼 Type:</strong> {job.jobType}</p>

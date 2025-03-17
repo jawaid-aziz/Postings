@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import toast from "react-hot-toast";
 
 const URL = import.meta.env.VITE_APP_URL;
 
@@ -40,7 +41,7 @@ export const PostJobs = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Something went wrong");
 
-      alert("Job posted successfully!");
+      toast.success("Job posted successfully", { duration: 5000 });
       setFormData({
         jobTitle: "",
         jobDescription: "",
@@ -50,6 +51,7 @@ export const PostJobs = () => {
       });
     } catch (err) {
       console.log(err.message);
+      toast.error(err.message, { duration: 5000 });
     } finally {
       setLoading(false);
     }

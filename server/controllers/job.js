@@ -107,6 +107,16 @@ async function getJobs(req, res) {
   }
 }
 
+async function getTheJob(req, res) {
+  try{
+    const job = await Job.findById(req.params.id);
+    res.status(200).json({ job });
+  }catch(error){
+    console.error("Get Job Error:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+}
+
 async function applyJob(req, res) {
   try {
     const id = req.params.id;
@@ -158,4 +168,5 @@ module.exports = {
   applyJob,
   getAllApplications,
   downloadResume,
+  getTheJob,
 };

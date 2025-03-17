@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import toast from "react-hot-toast";
 
 const URL = import.meta.env.VITE_APP_URL;
 
@@ -22,6 +23,7 @@ export const PostedJobs = () => {
         setJobs(data.jobs);
       } catch (error) {
         console.log(error.message);
+        toast.error(error.message, { duration: 5000 });
       }
     };
 
@@ -41,10 +43,10 @@ export const PostedJobs = () => {
       if (!response.ok) throw new Error("Something went wrong");
 
       setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
-      alert("Job deleted successfully!");
+      toast.success("Job deleted successfully", { duration: 5000 });
     } catch (error) {
       console.log("Error:", error.message);
-      alert(error.message);
+      toast.error(error.message, { duration: 5000 });
     }
   };
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const { postJob, getPostedJobs, getJobs, deleteJob, applyJob, getAllApplications, downloadResume } = require('../controllers/job');
+const { postJob, getPostedJobs, getJobs, deleteJob, applyJob, getAllApplications, downloadResume, getTheJob } = require('../controllers/job');
 const authMiddleware = require('../middlewares/auth');
 const uploadMiddleware = require('../middlewares/upload');
 
@@ -14,6 +14,7 @@ router.get("/download/:resume", authMiddleware, downloadResume)
 
 // Employee
 router.get('/all', authMiddleware, getJobs );
+router.get('/:id', authMiddleware, getTheJob );
 router.post('/apply/:id', authMiddleware, uploadMiddleware, applyJob );
 
 module.exports = router;
