@@ -129,8 +129,7 @@ async function applyJob(req, res) {
     const existUser = await JobApplication.findOne({ jobId: id, userId: req.user.userId });
     if (existUser) {
       fs.unlinkSync(path.join(dirname, "uploads", req.file.filename));
-      console.log("You have already applied for this job");
-      return res.status(400).json({ error: "You have already applied for this job" });
+      return res.status(400).json({ message: "You have already applied for this job" });
     }
 
     const user = await User.findById(req.user.userId);

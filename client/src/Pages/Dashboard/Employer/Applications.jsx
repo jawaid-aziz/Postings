@@ -22,7 +22,6 @@ export const Applications = () => {
         const data = await response.json();
         setApplications(data.applications);
       } catch (error) {
-        console.error("Error fetching applications:", error);
         toast.error(error.message, { duration: 5000 });
       } finally {
         setLoading(false);
@@ -52,7 +51,6 @@ export const Applications = () => {
 
       // Implement file download logic here
     } catch (error) {
-      console.error("Error downloading resume:", error);
       toast.error(error.message, { duration: 5000 });
     }
   };

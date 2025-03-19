@@ -123,7 +123,7 @@ export const PostJobs = () => {
               <div>
                 <Label>Salary/month</Label>
                 <Input
-                  type="number"
+                  type="text"
                   name="jobSalary"
                   placeholder="Enter salary"
                   value={formData.jobSalary}

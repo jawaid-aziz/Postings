@@ -42,7 +42,6 @@ export const SignUp = () => {
       navigate("/auth");
     } catch (error) {
       toast.error(error.message, { duration: 5000 });
-      console.error("Signup Error:", error);
     } finally {
       setLoading(false);
     }

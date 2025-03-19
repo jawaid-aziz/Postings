@@ -39,7 +39,6 @@ export const SignIn = () => {
       navigate("/");
     } catch (error) {
       toast.error(error.message, { duration: 5000 });
-      console.error("Login Error:", error);
     } finally {
       setLoading(false);
     }

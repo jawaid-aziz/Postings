@@ -20,7 +20,7 @@ const jobSchema = new mongoose.Schema({
         required: true,
     },
     jobSalary: {
-        type: Number,
+        type: String,
         required: true,
     },
     createdBy: {

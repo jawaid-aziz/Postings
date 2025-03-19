@@ -16,13 +16,11 @@ export const AuthProvider = ({children}) => {
       });
 
       const data = await res.json();
-      console.log("Auth Status Response:", data);
 
       setIsAuthenticated(data); // ✅ Update React state immediately
       localStorage.setItem("token", JSON.stringify(data));
 
     } catch (error) {
-      console.error("Auth check failed:", error);
       setIsAuthenticated(false);
       localStorage.setItem("token", false);
     }

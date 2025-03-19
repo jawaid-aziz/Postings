@@ -20,7 +20,6 @@ export const ApplyForm = () => {
 
       if (!response.ok) throw new Error(data.message || "Something went wrong");
       setJob(data.job);
-      console.log("Job:", job);
     } catch (error) {
       console.error("Error:", error);
       toast.error(error.message, { duration: 5000 });
@@ -66,7 +65,6 @@ export const ApplyForm = () => {
       toast.success("Application submitted successfully", { duration: 5000 });
       setResume(null);
     } catch (error) {
-      console.error("Error:", error);
       toast.error(error.message, { duration: 5000 });
     }
   };

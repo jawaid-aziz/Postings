@@ -18,12 +18,10 @@ export const Header = () => {
       });
 
       const data = await response.json();
-      console.log("Logout Response:", data);
       toast.success("Logged out successfully", { duration: 5000 });
       navigate("/");
     }
     catch (error) {
-      console.error("Logout Error:", error);
       toast.error(error.message, { duration: 5000 });
     }
     finally{

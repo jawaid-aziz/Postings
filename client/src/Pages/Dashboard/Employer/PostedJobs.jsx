@@ -22,7 +22,6 @@ export const PostedJobs = () => {
 
         setJobs(data.jobs);
       } catch (error) {
-        console.log(error.message);
         toast.error(error.message, { duration: 5000 });
       }
     };
@@ -45,9 +44,16 @@ export const PostedJobs = () => {
       setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
       toast.success("Job deleted successfully", { duration: 5000 });
     } catch (error) {
-      console.log("Error:", error.message);
       toast.error(error.message, { duration: 5000 });
     }
+  };
+
+  const limitText = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
   };
 
   return (
@@ -60,7 +66,7 @@ export const PostedJobs = () => {
             <Card key={job._id} className="flex flex-col h-full">
               <CardHeader>
                 <CardTitle className="text-teal-800">{job.jobTitle}</CardTitle>
-                <CardDescription>{job.jobDescription}</CardDescription>
+                <CardDescription className="whitespace-pre-wrap">{limitText(job.jobDescription, 50)}</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col flex-grow">
                 <p className="text-gray-700"><strong>Location:</strong> {job.jobLocation}</p>
