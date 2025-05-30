@@ -31,29 +31,42 @@ export const Applications = () => {
     fetchApplications();
   }, [id]);
 
-  const handleDownloadResume = (resume) => async () => {
-    try {
-      const response = await fetch(`${URL}/job/download/${resume}`, {
-        method: "GET",
-        credentials: "include",
-      });
+const handleDownloadResume = (resume) => async () => {
+  try {
+    const response = await fetch(`${URL}/job/download/${resume}`, {
+      method: "GET",
+      credentials: "include",
+    });
 
-      if (!response.ok) throw new Error("Error downloading resume");
+    if (!response.ok) throw new Error("Error downloading resume");
+    console.log(response.headers.get("Content-Disposition"));
+    console.log(response.headers.get("Content-Type"));
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
+    const blob = await response.blob();
 
-      // Implement file download logic here
-    } catch (error) {
-      toast.error(error.message, { duration: 5000 });
+    // Extract filename from the headers
+    const disposition = response.headers.get("Content-Disposition");
+    let filename = "resume.pdf"; // default fallback
+
+    if (disposition && disposition.includes("filename=")) {
+      filename = disposition
+        .split("filename=")[1]
+        .replace(/['"]/g, ""); // remove quotes if any
     }
-  };
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename; // NOW it's correctly set
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    toast.error(error.message, { duration: 5000 });
+  }
+};
+
 
   return (
     <div className=" p-6 h-screen">
