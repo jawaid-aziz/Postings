@@ -25,7 +25,7 @@ connectToMongoDB(process.env.MONGO_URL)
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://postings-delta.vercel.app",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
