@@ -1,3 +1,3 @@
 export const isTokenValid = () => {
-  return localStorage.getItem("token") === "true";
+  return !!localStorage.getItem("token");
 };
