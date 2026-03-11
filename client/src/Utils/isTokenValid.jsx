@@ -1,3 +1,4 @@
-export const isTokenValid = () => {
-  return !!localStorage.getItem("token");
-};
+export const isTokenValid =  () => {
+    const token = localStorage.getItem("token");
+    return JSON.parse(token);
+}
