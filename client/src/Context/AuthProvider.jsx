@@ -4,8 +4,7 @@ const URL = import.meta.env.VITE_APP_URL;
 
 const AuthContext = createContext();
 
-
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // null for loading state
 
   const checkAuthStatus = async () => {
@@ -19,10 +18,9 @@ export const AuthProvider = ({children}) => {
 
       setIsAuthenticated(data); // ✅ Update React state immediately
       localStorage.setItem("token", JSON.stringify(data));
-
     } catch (error) {
       setIsAuthenticated(false);
-      localStorage.setItem("token", false);
+      localStorage.setItem("token", JSON.stringify(false));
     }
   };
 
